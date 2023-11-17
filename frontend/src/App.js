@@ -13,7 +13,7 @@ function App() {
 
   return (
     <>
-      <div className="bg-gradient-to-t from-gray-800 to-pink-900">
+      <div className="bg-gradient-to-t from-gray-800 to-gray-900">
         <nav className="flex items-center justify-between">
         <h1 className="p-4 text-4xl text-white font-bold mb-4">Some Web Store</h1>
           <div className="">
