@@ -2,18 +2,7 @@ const axios = require('axios');
 const db = require('./db'); // Adjust the path based on your project structure
 
 async function populateDatabase() {
-  try {
-    // Create the 'products' table if it doesn't exist
-    db.run(`
-      CREATE TABLE IF NOT EXISTS products (
-        id INTEGER PRIMARY KEY,
-        title TEXT,
-        price REAL,
-        category TEXT,
-        image TEXT
-      )
-    `);
-    
+  try {    
     // Fetch data from the fakestoreapi
     const response = await axios.get('https://fakestoreapi.com/products');
     const products = response.data;

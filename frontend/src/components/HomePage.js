@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-function HomePage({ cart, setCart }) {
+function HomePage({ sessionId }) {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
+
+  console.log("Session ID in home:", sessionId);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -25,8 +27,6 @@ function HomePage({ cart, setCart }) {
 
         setProducts(responseProducts.data); // Access the "products" key
         setCategories(responseCategories.data); // Access the "categories" key
-        console.log(responseProducts);
-        console.log(responseCategories);
       } catch (error) {
         console.error("Error fetching data: ", error);
         throw error;
@@ -47,22 +47,56 @@ function HomePage({ cart, setCart }) {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+  console.log("Session ID from fetch:", sessionId);
 
-  const handleAddToCart = (product) => {
-    const existingCartItem = cart.find((item) => item.id === product.id);
+  const handleAddToCart = async (product) => {
+    try {
+      // const response = await axios.get("http://localhost:5000/api/session");
+      // const sessionId = response.data;
 
-    if (existingCartItem) {
-      // If the item is already in the cart, update the quantity
-      setCart((prevCart) =>
-        prevCart.map((item) =>
+      // console.log("Session ID before GET:", sessionId);
+      // Fetch the current cart state
+      const cartResponse = await axios.get(
+        `http://localhost:5000/api/cart/${sessionId}`
+      );
+
+      const currentCart = Array.isArray(cartResponse.data)
+        ? cartResponse.data
+        : [];
+      console.log("Current cart:", currentCart);
+
+      // Modify the cart, add the product, etc.
+      const existingCartItem = currentCart.find(
+        (item) => item.id === product.id
+      );
+
+      if (existingCartItem) {
+        // If the item is already in the cart, update the quantity
+        const updatedCart = currentCart.map((item) =>
           item.id === product.id
             ? { ...item, quantity: item.quantity + 1 }
             : item
-        )
-      );
-    } else {
-      // If the item is not in the cart, add it with quantity 1
-      setCart((prevCart) => [...prevCart, { ...product, quantity: 1 }]);
+        );
+
+        // Post the updated cart back to the backend
+        await axios.post(`http://localhost:5000/api/cart/${sessionId}`, {
+          cart: updatedCart,
+        });
+
+        console.log("Product quantity updated successfully");
+      } else {
+        // If the item is not in the cart, add it with quantity 1
+        const updatedCart = [...currentCart, { ...product, quantity: 1 }];
+
+        // Post the updated cart back to the backend
+        await axios.post(`http://localhost:5000/api/cart/${sessionId}`, {
+          cart: updatedCart,
+        });
+
+        console.log("Product added to cart successfully");
+      }
+    } catch (error) {
+      console.error("Error updating/adding product to cart: ", error);
     }
   };
 
