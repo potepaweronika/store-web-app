@@ -10,7 +10,6 @@ router.get("/:sessionId", (req, res) => {
   const sessionId = req.params.sessionId || req.sessionID;
   // Fetch cart information from the database based on the session ID
   // You may need to adjust the query based on your database schema
-  console.log("sessionid: " + sessionId);
   db.get("SELECT * FROM carts WHERE sessionId = ?", [sessionId], (err, row) => {
     if (err) {
       res.status(500).json({ error: err.message });
@@ -19,7 +18,6 @@ router.get("/:sessionId", (req, res) => {
 
     if (row) {
       // If the row is found, the user already has a cart, proceed as before
-      console.log("row: " + row);
       const cart = new Cart(row.sessionId);
       cart.items = JSON.parse(row.cart); // Convert stored JSON string to an object
       res.json(cart);

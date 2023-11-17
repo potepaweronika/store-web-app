@@ -7,8 +7,6 @@ function HomePage({ sessionId }) {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
 
-  console.log("Session ID in home:", sessionId);
-
   useEffect(() => {
     const fetchProducts = async () => {
       try {

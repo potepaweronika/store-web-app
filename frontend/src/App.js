@@ -3,7 +3,6 @@ import ShoppingCart from "./components/ShoppingCart";
 import { FaShoppingCart } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import axios from "axios";
-// import { Routes, Route, useNavigate } from "react-router-dom";
 
 function App() {
   const [isCartPage, setIsCartPage] = useState(false);
@@ -47,10 +46,6 @@ function App() {
       <div>
           {!isCartPage ? (<HomePage sessionId={sessionId} />) : (<ShoppingCart sessionId={sessionId} />)}
       </div>
-      {/* <Routes>
-        <Route path="/cart" element={<ShoppingCart cart={cart} />} />
-        <Route path="/" element={<HomePage cart={cart} setCart={setCart} />} />
-      </Routes> */}
     </>
   );
 }

@@ -50,7 +50,6 @@ function ShoppingCart({ sessionId }) {
     console.log("Updated cart:", updatedCart);
   
     // Update the cart in the database
-    // Replace this with your actual database query
     await axios.post(`http://localhost:5000/api/cart/remove/${sessionId}`, {
       cart: updatedCart,
     });
