@@ -6,3 +6,4 @@ Basic store web app where the user can browse produts and add them to their cart
  * Tailwind CSS
  * Node.js
  * Express
+ * SQLite
