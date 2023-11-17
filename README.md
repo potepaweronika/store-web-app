@@ -21,3 +21,6 @@ The application is built using a combination of modern technologies for both the
 - Product Browsing: Users can browse through a variety of products available in the store.
 - Shopping Cart: Users can add products to their shopping cart and view the cart at any time to see their selected products.
 
+## To run:
+ - cd frontend -> npm start
+ - cd backend -> node server.js
