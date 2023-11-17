@@ -10,15 +10,23 @@ function HomePage({ cart, setCart }) {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const responseProducts = await axios.get(
-          "https://fakestoreapi.com/products"
-        );
-        const responseCategories = await axios.get(
-          "https://fakestoreapi.com/products/categories"
-        );
+        const [responseProducts, responseCategories] = await Promise.all([
+          axios.get("http://localhost:5000/api/products/", {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }),
+          axios.get("http://localhost:5000/api/products/categories", {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }),
+        ]);
+
         setProducts(responseProducts.data); // Access the "products" key
         setCategories(responseCategories.data); // Access the "categories" key
-        // setSelectedCategory(responseCategories.data[0]);
+        console.log(responseProducts);
+        console.log(responseCategories);
       } catch (error) {
         console.error("Error fetching data: ", error);
         throw error;
